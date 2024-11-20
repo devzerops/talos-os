@@ -1,0 +1,63 @@
+version: 1.16.3
+namespace: kube-system
+
+cni:
+  exclusive: false
+
+socketLB:
+  hostNamespaceOnly: true
+
+mtls:
+  mode: DISABLE
+
+ipam:
+  mode: kubernetes
+
+kubeProxyReplacement: true
+
+securityContext:
+  capabilities:
+    ciliumAgent:
+      - CHOWN
+      - KILL
+      - NET_ADMIN
+      - NET_RAW
+      - IPC_LOCK
+      - SYS_ADMIN
+      - SYS_RESOURCE
+      - DAC_OVERRIDE
+      - FOWNER
+      - SETGID
+      - SETUID
+    cleanCiliumState:
+      - NET_ADMIN
+      - SYS_ADMIN
+      - SYS_RESOURCE
+
+cgroup:
+  autoMount:
+    enabled: false
+  hostRoot: /sys/fs/cgroup
+
+k8sServiceHost: localhost
+k8sServicePort: 7445
+
+k8sClientRateLimit:
+  qps: 5
+  burst: 10
+
+l2announcements:
+  enabled: true
+  leaseDuration: 15s
+  leaseRenewDeadline: 5s
+  leaseRetryPeriod: 2s
+  algorithm: maglev
+
+externalIPs:
+  enabled: true
+
+hubble:
+  ui:
+    enabled: true
+  relay:
+    enabled: true
